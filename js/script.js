@@ -120,6 +120,17 @@ const checkEat = () => {
     }
 }
 
+const checkCollision = () => {
+    const head = snake[snake.length - 1];
+    const canvasLimit = canvas.width - size;
+
+    const wallCollision = head.x < 0 || head.x > canvasLimit || head.y < 0 || head.y > canvasLimit;
+
+    if(wallCollision) {
+        alert('Você perdeu!');
+    }
+}
+
 const gameLoop = () => {
     clearInterval(loopId);
     ctx.clearRect(0, 0, 600, 600);
@@ -129,6 +140,7 @@ const gameLoop = () => {
     moveSnake();
     drawSnake();
     checkEat();
+    checkCollision();
 
     loopId = setTimeout(() => {
         gameLoop();
