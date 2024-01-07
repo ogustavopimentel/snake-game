@@ -23,7 +23,7 @@ const randomColor = () => {
     const green = randomNumber(0, 255);
     const blue = randomNumber(0, 255);
 
-    return `rgb(${red}, ${green}, ${blue})`
+    return `rgb(${red}, ${green}, ${blue})`;
 }
 
 const food = {
@@ -116,17 +116,22 @@ const checkEat = () => {
 
         food.x = x;
         food.y = y;
-        food.color = randomColor;
+        food.color = randomColor();
     }
 }
 
 const checkCollision = () => {
     const head = snake[snake.length - 1];
     const canvasLimit = canvas.width - size;
+    const neckIndex = snake.length - 2;
 
     const wallCollision = head.x < 0 || head.x > canvasLimit || head.y < 0 || head.y > canvasLimit;
 
-    if(wallCollision) {
+    const selfCollision = snake.find((position, index) => {
+        return index < neckIndex && position.x == head.x && position.y == head.y
+    });
+
+    if(wallCollision || selfCollision) {
         alert('Você perdeu!');
     }
 }
