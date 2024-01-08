@@ -10,9 +10,12 @@ const audio = new Audio('../assets/audio.mp3');
 
 const size = 30;
 
-const snake = [
-    { x: 270, y: 240},
-];
+const initialPosition = { x: 270, y: 240};
+let snake = [initialPosition];
+
+const incrementScore = () => {
+    score.innerText = +score.innerText + 10
+}
 
 const randomNumber = (min, max) => {
     return Math.round(Math.random() * (max - min) + min);
@@ -108,6 +111,7 @@ const checkEat = () => {
     const head = snake[snake.length - 1];
 
     if(head.x == food.x && head.y == food.y) {
+        incrementScore();
         snake.push(head);
         audio.play();
         
@@ -143,6 +147,10 @@ const checkCollision = () => {
 
 const gameOver = () => {
     direction = undefined;
+
+    menu.style.display = 'flex';
+    finalScore.innerText = score.innerText;
+    canvas.style.filter = 'blur(2px)';
 }
 
 const gameLoop = () => {
@@ -179,4 +187,12 @@ document.addEventListener('keydown', ({key}) => {
     if(key == 'ArrowDown' && direction != 'up') {
         direction = 'down';
     }
+});
+
+buttonPlay.addEventListener('click', () => {
+    score.innerText = '00';
+    menu.style.display = 'none';
+    canvas.style.filter = 'none';
+
+    snake = [initialPosition];
 });
